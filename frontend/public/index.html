@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel=”shortcut icon” href=”%PUBLIC_URL%/favicon.ico”>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        /* Basic styles for the splash screen */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(240, 240, 240, 0.8); /* Capas gris clarito */
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 0, 0, 0.3); /* Rojo claro */
+            border-top: 4px solid #ff0000; /* Rojo puro */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-bar {
+            width: 80%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #ff0000; /* Rojo */
+            width: 0;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="splash-screen">
+        <div id="splash-content">
+            <div class="loading-spinner"></div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    <div id="root"></div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+        // Simulate progress update
+        let progress = 0;
+        const progressBar = document.getElementById('progress-bar');
+        const splashScreen = document.getElementById('splash-screen');
+        
+        const interval = setInterval(() => {
+            if (progress < 50) {
+                progress += 10;
+            } else if (progress < 80) {
+                progress += 3;
+            } else if (progress < 99) {
+                progress += ((99 - progress) / 20);
+            }
+            progressBar.style.width = progress + '%';
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    splashScreen.classList.add('hidden'); // Add class to fade out splash screen
+                }, 500);
+            }
+        }, 1000);
+
+        window.finishProgress = () => {
+            progress = 100;
+        }
+
+        window.onload = () => {
+            // Ensures the splash screen fades out smoothly once loading is complete
+            setTimeout(() => splashScreen.classList.add('hidden'), 500);
+        };
+    </script>
+</body>
+
+</html>
