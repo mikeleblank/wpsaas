@@ -52,7 +52,7 @@ const ChatMoments = () => {
       <MainHeader>
         <Grid style={{ width: "99.6%" }} container justifyContent="center" alignItems="flex-start">
           <Grid xs={12} sm={8} xl={4} item >
-            <Title>{"Painel de Atendimentos"}</Title>
+            <Title>{"Panel de atención"}</Title>
           </Grid>
           <Grid style={{ width: "100%", height: "100vh" }} item >
             <Paper
